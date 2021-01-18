@@ -10,8 +10,14 @@ public class ClientRunner implements Runnable {
     byte[] buf;
 
     private final byte[] broadcast = new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF};
-    private final byte[] broadcast2 = new byte[]{(byte) 0, (byte) 0, (byte) 0, (byte) 0};
-    private final byte[] mac = new byte[6];
+    private final byte[] broadcast2 = new byte[]{(byte) 192, (byte) 168, (byte) 0, (byte) 255};
+    private final byte[] mac = new byte[]
+
+    {
+        (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF
+    }
+
+    ;
     private final byte[] secs = new byte[2];
     private final int serverPort = 67;
     private final int clientPort = 68;
@@ -20,7 +26,7 @@ public class ClientRunner implements Runnable {
 
 
     public ClientRunner() {
-        new Random().nextBytes(mac);
+//        new Random().nextBytes(mac);
         buf = new byte[548];
     }
 
@@ -29,8 +35,8 @@ public class ClientRunner implements Runnable {
         try {
             buf = new DHCPMessage().createDiscover(mac);
             time = System.currentTimeMillis();
-            socket = new DatagramSocket( serverPort,Inet4Address.getByAddress(broadcast2));
-            discoverPacket = new DatagramPacket(buf, buf.length, Inet4Address.getByAddress(broadcast), clientPort);
+            socket = new DatagramSocket(serverPort);
+            discoverPacket = new DatagramPacket(buf, buf.length, Inet4Address.getByAddress(broadcast2), clientPort);
             socket.send(discoverPacket);
             System.out.println("Send Discover Packet");
             socket.close();
