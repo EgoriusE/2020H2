@@ -26,7 +26,6 @@ public class ClientRunner implements Runnable {
 
 
     public ClientRunner() {
-//        new Random().nextBytes(mac);
         buf = new byte[548];
     }
 
